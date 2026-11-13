@@ -30,29 +30,10 @@
     }catch(e){}
   })();
 
-  /* ---- hero video ---- */
-  var hv=$('#heroVideo'), sb=$('#soundBtn');
-  if(reduce||saveData){hv.removeAttribute('autoplay');hv.pause();hv.setAttribute('controls','')}
-  sb.addEventListener('click',function(){
-    hv.muted=!hv.muted;
-    $('use',sb).setAttribute('href',hv.muted?'#i-mute':'#i-sound');
-    sb.setAttribute('aria-label',hv.muted?'Turn sound on':'Turn sound off');
-    var pr=hv.play(); if(pr&&pr.catch)pr.catch(function(){});
-  });
-  if('IntersectionObserver' in window&&!reduce&&!saveData){
-    new IntersectionObserver(function(en){
-      en.forEach(function(x){
-        if(x.isIntersecting){var pr=hv.play();if(pr&&pr.catch)pr.catch(function(){})}
-        else hv.pause();
-      });
-    },{threshold:.25}).observe(hv);
-  }
-
   /* ---- reels: one at a time ---- */
   var reels=$$('#reels video');
   reels.forEach(function(v){v.addEventListener('play',function(){
     reels.forEach(function(o){if(o!==v)o.pause()});
-    if(!hv.muted){hv.muted=true;$('use',sb).setAttribute('href','#i-mute')}
   })});
 
   /* ---- conditions tabs ---- */
